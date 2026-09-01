@@ -2,7 +2,8 @@
 
 'use strict';
 
-// Supports addition, subtraction, multiplication, and division.
+// Supports addition, subtraction, multiplication, division, modulo, power,
+// and square root.
 function addition(a, b) {
   return a + b;
 }
@@ -23,6 +24,26 @@ function division(a, b) {
   return a / b;
 }
 
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error('Cannot take modulo by zero.');
+  }
+
+  return a % b;
+}
+
+function power(base, exponent) {
+  return base ** exponent;
+}
+
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error('Cannot take the square root of a negative number.');
+  }
+
+  return Math.sqrt(n);
+}
+
 function calculate(left, operator, right) {
   if (!Number.isFinite(left) || !Number.isFinite(right)) {
     throw new Error('Both operands must be finite numbers.');
@@ -37,8 +58,12 @@ function calculate(left, operator, right) {
       return multiplication(left, right);
     case '/':
       return division(left, right);
+    case '%':
+      return modulo(left, right);
+    case '^':
+      return power(left, right);
     default:
-      throw new Error('Supported operations are +, -, *, and /.');
+      throw new Error('Supported operations are +, -, *, /, %, and ^.');
   }
 }
 
@@ -68,6 +93,9 @@ module.exports = {
   subtraction,
   multiplication,
   division,
+  modulo,
+  power,
+  squareRoot,
   calculate,
   runCli,
 };

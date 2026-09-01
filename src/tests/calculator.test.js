@@ -8,6 +8,9 @@ const {
   subtraction,
   multiplication,
   division,
+  modulo,
+  power,
+  squareRoot,
   calculate,
   runCli,
 } = require('../calculator');
@@ -42,16 +45,48 @@ test('division rejects division by zero', () => {
   });
 });
 
-test('calculate dispatches the four supported operations', () => {
+test('modulo returns the remainder', () => {
+  assert.equal(modulo(5, 2), 1);
+  assert.equal(modulo(10, 4), 2);
+  assert.equal(modulo(-7, 3), -1);
+});
+
+test('modulo rejects a zero divisor', () => {
+  assert.throws(() => modulo(5, 0), {
+    message: 'Cannot take modulo by zero.',
+  });
+});
+
+test('power raises a base to an exponent', () => {
+  assert.equal(power(2, 3), 8);
+  assert.equal(power(5, 0), 1);
+  assert.equal(power(4, 0.5), 2);
+});
+
+test('squareRoot returns the non-negative square root', () => {
+  assert.equal(squareRoot(16), 4);
+  assert.equal(squareRoot(0), 0);
+  assert.equal(squareRoot(2.25), 1.5);
+});
+
+test('squareRoot rejects negative numbers', () => {
+  assert.throws(() => squareRoot(-1), {
+    message: 'Cannot take the square root of a negative number.',
+  });
+});
+
+test('calculate dispatches the supported binary operations', () => {
   assert.equal(calculate(2, '+', 3), 5);
   assert.equal(calculate(10, '-', 4), 6);
   assert.equal(calculate(45, '*', 2), 90);
   assert.equal(calculate(20, '/', 5), 4);
+  assert.equal(calculate(5, '%', 2), 1);
+  assert.equal(calculate(2, '^', 3), 8);
 });
 
 test('calculate rejects unsupported operators', () => {
-  assert.throws(() => calculate(2, '%', 3), {
-    message: 'Supported operations are +, -, *, and /.',
+  assert.throws(() => calculate(2, '&', 3), {
+    message: 'Supported operations are +, -, *, /, %, and ^.',
   });
 });
 
